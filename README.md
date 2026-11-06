@@ -1,9 +1,8 @@
 # 📊 Text-to-SQL Analytics Agent
-
 Ask questions about a database in plain English. The agent writes the SQL, validates it for safety, runs it, **self-corrects on errors**, and returns a chart plus a plain-language summary.
 
 Built with **LangGraph**, **Groq (LLM)**, **sqlglot**, **Streamlit**, and **Plotly**, on the Chinook music-store database.
-
+🔗 **Live demo:** https://text2sql-agent-jdztlxpfw3nyldx7fwlz4q.streamlit.app/
 ![Demo](docs/demo.png)
 
 ## How it works
