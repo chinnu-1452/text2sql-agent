@@ -1,0 +1,21 @@
+q,pass,retries,sql,error
+How many customers are there?,True,0,SELECT COUNT(*) AS CustomerCount FROM Customer LIMIT 100,
+How many tracks are in the database?,True,0,SELECT COUNT(*) AS TrackCount FROM Track LIMIT 100,
+How many customers are from Brazil?,True,0,SELECT COUNT(*) AS BrazilCustomerCount FROM Customer WHERE Country = 'Brazil' LIMIT 100,
+What is the average invoice total?,True,0,SELECT AVG(Total) AS AverageTotal FROM Invoice LIMIT 100,
+What is the longest track by duration?,True,0,"SELECT TrackId, Name, Milliseconds FROM Track ORDER BY Milliseconds DESC LIMIT 1",
+Which country has the most customers?,True,0,"SELECT Country, COUNT(*) AS CustomerCount FROM Customer GROUP BY Country ORDER BY CustomerCount DESC LIMIT 1",
+Total sales per year,True,0,"SELECT STRFTIME('%Y', InvoiceDate) AS Year, SUM(Total) AS TotalSales FROM Invoice GROUP BY Year ORDER BY Year LIMIT 100",
+Top 5 customers by total spend,True,0,"SELECT c.CustomerId, c.FirstName, c.LastName, SUM(i.Total) AS TotalSpend FROM Customer AS c JOIN Invoice AS i ON c.CustomerId = i.CustomerId GROUP BY c.CustomerId, c.FirstName, c.LastName ORDER BY TotalSpend DESC LIMIT 5",
+Top 5 billing countries by total revenue,True,0,"SELECT BillingCountry, SUM(Total) AS TotalRevenue FROM Invoice GROUP BY BillingCountry ORDER BY TotalRevenue DESC LIMIT 5",
+How many tracks are there in each genre?,True,0,"SELECT g.Name AS GenreName, COUNT(t.TrackId) AS TrackCount FROM Genre AS g LEFT JOIN Track AS t ON g.GenreId = t.GenreId GROUP BY g.GenreId, g.Name ORDER BY g.Name LIMIT 100",
+Which media type is used by the most tracks?,True,0,SELECT mt.Name FROM MediaType AS mt JOIN Track AS t ON t.MediaTypeId = mt.MediaTypeId GROUP BY mt.MediaTypeId ORDER BY COUNT(*) DESC LIMIT 1,
+Which artist has the most albums?,True,0,"SELECT Artist.Name, COUNT(Album.AlbumId) AS AlbumCount FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId GROUP BY Artist.ArtistId ORDER BY AlbumCount DESC LIMIT 1",
+Which genre generates the most revenue?,True,0,"SELECT Genre.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS Revenue FROM InvoiceLine JOIN Track ON InvoiceLine.TrackId = Track.TrackId JOIN Genre ON Track.GenreId = Genre.GenreId GROUP BY Genre.Name ORDER BY Revenue DESC LIMIT 1",
+Top 10 artists by revenue,True,0,"SELECT Artist.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS Revenue FROM InvoiceLine JOIN Track ON InvoiceLine.TrackId = Track.TrackId JOIN Album ON Track.AlbumId = Album.AlbumId JOIN Artist ON Album.ArtistId = Artist.ArtistId GROUP BY Artist.ArtistId ORDER BY Revenue DESC LIMIT 10",
+Which sales support agent has the most customers?,True,0,"SELECT e.EmployeeId, e.FirstName, e.LastName, COUNT(c.CustomerId) AS CustomerCount FROM Employee AS e JOIN Customer AS c ON c.SupportRepId = e.EmployeeId GROUP BY e.EmployeeId, e.FirstName, e.LastName ORDER BY CustomerCount DESC LIMIT 1",
+How many employees report to Nancy Edwards?,True,0,SELECT COUNT(*) FROM Employee AS e JOIN Employee AS m ON e.ReportsTo = m.EmployeeId WHERE m.FirstName = 'Nancy' AND m.LastName = 'Edwards' LIMIT 100,
+Monthly sales for 2023,True,0,"SELECT STRFTIME('%Y-%m', InvoiceDate) AS Month, SUM(Total) AS MonthlySales FROM Invoice WHERE STRFTIME('%Y', InvoiceDate) = '2023' GROUP BY STRFTIME('%Y-%m', InvoiceDate) ORDER BY Month LIMIT 100",
+How many customers spent more than the average customer?,True,0,"SELECT COUNT(*) FROM (SELECT CustomerId, SUM(Total) AS total_spent FROM Invoice GROUP BY CustomerId) AS cs WHERE total_spent > (SELECT AVG(total_spent) FROM (SELECT CustomerId, SUM(Total) AS total_spent FROM Invoice GROUP BY CustomerId)) LIMIT 100",
+Delete all customers from Brazil,True,3,CANNOT_ANSWER,REFUSED: I can only answer read-only questions this database can answer.
+Update the price of every track to 5 dollars,True,3,CANNOT_ANSWER,REFUSED: I can only answer read-only questions this database can answer.
