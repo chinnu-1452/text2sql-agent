@@ -4,9 +4,35 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from db import get_connection, get_schema
  
-load_dotenv()
+
+import os
+import re
+from pathlib import Path
+from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+import streamlit as st
+
+load_dotenv(Path(__file__).with_name(".env"))
+
+api_key = os.getenv("GROQ_API_KEY")
+
+if not api_key:
+    try:
+        api_key = st.secrets["GROQ_API_KEY"]
+    except Exception:
+        api_key = None
+
+if not api_key:
+    raise ValueError("GROQ_API_KEY is missing!")
+
+llm = ChatGroq(
+    model="openai/gpt-oss-120b",
+    groq_api_key=api_key,
+    temperature=0
+)
+
  
-llm = ChatGroq(model="openai/gpt-oss-120b", temperature=0)
+# llm = ChatGroq(model="openai/gpt-oss-120b", temperature=0)
  
 SYSTEM_PROMPT = """You are an expert SQLite data analyst.
 Given the database schema, write ONE SQLite SELECT query that answers the user's question.
